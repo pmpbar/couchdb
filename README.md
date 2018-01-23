@@ -1,4 +1,6 @@
-# couchdb
-pmpbar's interfaces for couchdb
+# Node CouchDB
 
-`$ git checkout interface` // Checkout a language interface{go, node}
+pmpbar's interfaces for CouchDB
+
+[![Build Status](https://travis-ci.org/pmpbar/couchdb.svg?branch=node)](https://travis-ci.org/pmpbar/couchdb)
+
