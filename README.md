@@ -1,5 +1,5 @@
-# couchdb
-pmpbar's interfaces for couchdb
+# CouchDB
+pmpbar's interfaces for CouchDB
 
 `$ git checkout interface` // Checkout a language interface{go, node}
 
