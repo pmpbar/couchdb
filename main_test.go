@@ -1,10 +1,31 @@
 package main
 
 import (
-	"log"
+	"github.com/pmpbar/log"
 	"testing"
 )
 
-func TestHello(t *testing.T) {
-	log.Println("Testing hello world...")
+func TestInsert(t *testing.T) {
+	l = logger.NewLogger(logger.LEVELINFO)
+	cdb := NewCouchDB("http://localhost:5984/")
+	err := cdb.Insert("test", `{ "test": "asdf" }`)
+	if err != nil {
+		t.Error(err)
+	}
+	l.Test("Insert success")
 }
+
+func TestFind(t *testing.T) {
+	l = logger.NewLogger(logger.LEVELINFO)
+	cdb := NewCouchDB("http://localhost:5984/")
+	res, err := cdb.Find("test", `{ "test": { "$eq": "asdf" } }`)
+	if err != nil {
+		t.Error(err)
+	}
+	if len(res.Docs) == 0 {
+		t.Error()
+	}
+	l.Test("Find success")
+}
+
+func TestGetDBs(t *testing.T) {}

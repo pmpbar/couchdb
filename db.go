@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 )
@@ -37,15 +38,17 @@ func (cdb *DB) GetAll() []string {
 	return dbs
 }
 
-func (cdb *DB) Add(name string) bool {
+func (cdb *DB) Add(name string) error {
 	client := &http.Client{}
 	request, err := http.NewRequest("PUT", cdb.url+name, nil)
 	if err != nil {
 		l.Error("%v", err)
+		return err
 	}
 	resp, err := client.Do(request)
 	if err != nil {
 		l.Error("%v", err)
+		return err
 	}
 	defer func() {
 		err := resp.Body.Close()
@@ -57,17 +60,19 @@ func (cdb *DB) Add(name string) bool {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		l.Error("%v", err)
+		return err
 	}
 	l.Verbose("Body: %v", string(body))
 
-	var res map[string]bool
+	var res map[string]interface{}
 	err = json.Unmarshal(body, &res)
 	if err != nil {
 		l.Error("%v", err)
+		return err
 	}
-	if val, ok := res["ok"]; ok {
+	if _, ok := res["ok"].(bool); ok {
 		l.Debug("Add DB successful")
-		return val
+		return nil
 	}
-	return false
+	return errors.New(res["error"].(string))
 }
