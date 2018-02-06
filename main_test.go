@@ -17,7 +17,7 @@ func TestInsert(t *testing.T) {
 }
 
 func TestFind(t *testing.T) {
-	l = logger.NewLogger(logger.LEVELINFO)
+	l = logger.NewLogger(logger.LEVELVERBOSE)
 	cdb := NewCouchDB("http://localhost:5984/")
 	err := cdb.Insert("test", `{ "test": "asdf" }`)
 	if err != nil {
@@ -28,7 +28,7 @@ func TestFind(t *testing.T) {
 			t.Error(err)
 		}
 		if len(res.Docs) == 0 {
-			t.Error()
+			t.Error("No documents found")
 		} else {
 			l.Test("Find success")
 		}
