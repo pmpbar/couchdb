@@ -11,21 +11,28 @@ func TestInsert(t *testing.T) {
 	err := cdb.Insert("test", `{ "test": "asdf" }`)
 	if err != nil {
 		t.Error(err)
+	} else {
+		l.Test("Insert success")
 	}
-	l.Test("Insert success")
 }
 
 func TestFind(t *testing.T) {
 	l = logger.NewLogger(logger.LEVELINFO)
 	cdb := NewCouchDB("http://localhost:5984/")
-	res, err := cdb.Find("test", `{ "test": { "$eq": "asdf" } }`)
+	err := cdb.Insert("test", `{ "test": "asdf" }`)
 	if err != nil {
 		t.Error(err)
+	} else {
+		res, err := cdb.Find("test", `{ "test": { "$eq": "asdf" } }`)
+		if err != nil {
+			t.Error(err)
+		}
+		if len(res.Docs) == 0 {
+			t.Error()
+		} else {
+			l.Test("Find success")
+		}
 	}
-	if len(res.Docs) == 0 {
-		t.Error()
-	}
-	l.Test("Find success")
 }
 
 func TestGetDBs(t *testing.T) {}
