@@ -1,0 +1,8 @@
+package: couchdb
+import:
+- package: github.com/pmpbar/log
+- package: github.com/onsi/ginkgo
+  version: ^1.4.0
+  subpackages:
+  - ginkgo
+  - gomega
